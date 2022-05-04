@@ -17,25 +17,33 @@ $result = array();
 if (!isset($answerText) || trim($answerText) == "") {
     $_SESSION['error'] = $translator->trans('backend-messages.answer.exercise.failed');
     $result["answer_content"] = false;
+    $result["prueba_funciona"] = true;
 } else {
     //Search for the exercise on the db and map
     $exercise = \CT\CT_Exercise::withId($exerciseId);
     $main = $exercise->getMain();
-    
-    $exercise1 = new \CT\CT_ExerciseCode($exercise->getExerciseId());   
+
+    $exercise1 = new \CT\CT_ExerciseCode($exercise->getExerciseId());
     $answerOutput = null;
-    
+
     if($answerLanguage == 0) {
         $client = HttpClient::create();
-    
-        $response = $client->request("POST", "{$CFG->apiConfigs['xml-validator']['baseUrl']}eval", [
+
+        $response = $client->request('POST', "{$CFG->apiConfigs['xml-validator']['baseUrl']}eval", [
             'json' => [
-                'date' => date("c"),
+                'date' => date('c'),
                 'program' => $answerText,
-                'learningObject' => $exercise1->getAkId() //$exerciseId
+                // 'learningObject' => $exercise1->getAkId(), //$exerciseId
             ]
         ]);
+
         $answerOutput = $response->getContent();
+        // El error viene de aquí, pero el problema real parece provenir del http://java-validator:3000/eval
+        // Pues todos los parámetro enviados llegan correctamente.
+        // $answerText, date('c') y $exercise->getAkId() devuelven datos reales y comprobados.
+        // Y tampoco parece ser un error del HttpClient, pues cuando ponemos los mismos parámetros en el rested
+        // este, sale un error de que no se encuentra la web.
+
     }
 
     // Remove quotes from start and beggining if they exist
@@ -45,6 +53,8 @@ if (!isset($answerText) || trim($answerText) == "") {
 
     $array = $exercise1->createAnswer($USER->id, $answerText, $answerLanguage, $answerOutput);
     $answer = $array['answer'];
+
+    echo json_encode($_SESSION["existe"]); // se crea en createAnswer
 
     $result["answer_content"] = true;
     $result['exists'] = $array['exists'];
@@ -77,4 +87,3 @@ header('Content-Type: application/json');
 echo json_encode($result, JSON_HEX_QUOT | JSON_HEX_TAG);
 
 exit;
-

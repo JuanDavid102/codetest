@@ -10,6 +10,7 @@ $timeScore = $_POST['rateTime'];
 
 $user = new \CT\CT_User($USER->id);
 $usage = \CT\CT_Usage::constructValues($exerciseId, $user, $understandabilityScore, $difficultyScore, $timeScore);
+
 $code = $usage->save();
 $resulta = array();
 /*

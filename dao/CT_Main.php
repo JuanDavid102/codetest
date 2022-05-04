@@ -57,7 +57,7 @@ class CT_Main implements \JsonSerializable
         $query['PDOX']->queryDie($query['sentence'], $arr);
         return new self($query['PDOX']->lastInsertId());
     }
-    
+
     //Save test on the repo
     function saveTest($tests) {
         global $REST_CLIENT_REPO;
@@ -70,11 +70,11 @@ class CT_Main implements \JsonSerializable
         $responseContent = $response->getContent();
         return $responseContent;
     }
-    
+
     //Save exercise on the repo
     function saveExercises($exercises) {
         global $REST_CLIENT_REPO;
-    
+
         $saveExerciseRequest = $REST_CLIENT_REPO->
                                 getClient()->
                                 request('POST','api/exercises/createExercise', [
@@ -83,7 +83,7 @@ class CT_Main implements \JsonSerializable
 
         return $saveExerciseRequest->getContent();
     }
-    
+
     //Create exercise object
     function createExercise($context, $language, $difficulty) {
         global $CFG;
@@ -94,33 +94,33 @@ class CT_Main implements \JsonSerializable
                 $array = self::getLanguages();
                 foreach ( $array as $k => $v){
                  if($v['name'] == $language){
-                  
+
                       $exercise->setExerciseLanguage(strtolower($language));
                  }
-                }          
+                }
             $exercise->setDifficulty($difficulty);
-        } 
+        }
         $exercise->setCtId($this->getCtId());
         return $exercise;
     }
-        
+
      function importExercise($context) {
         global $CFG;
         if(is_array($context)) {
             $class = $CFG->ExerciseProperty['class'];
             $exercise = new $class();
             \CT\CT_DAO::setObjectPropertiesFromArray($exercise, $context);
-        } 
+        }
         $exercise->setCtId($this->getCtId());
         return $exercise;
     }
-    
+
     public static function getTypes(){
         global $CFG;
         return $CFG->programmingLanguajes;
-        
+
     }
-    
+
     function getLanguages() {
         global $CFG;
         return $CFG->ExerciseProperty['codeLanguages'];
@@ -155,7 +155,7 @@ class CT_Main implements \JsonSerializable
         }
         return $this->exercises;
     }
-    
+
     function getTest() {
         // TODO Crear array de objetos Code o SQL según corresponda
         // a través de JOIN con la tabla correspondiente
@@ -442,7 +442,7 @@ class CT_Main implements \JsonSerializable
             ':user_id' => $this->getUserId(),
             ':context_id' => $this->getContextId(),
             ':link_id' => $this->getLinkId(),
-            ':title' => $this->getTitle(),       
+            ':title' => $this->getTitle(),
             ':seen_splash' => $this->getSeenSplash(),
             ':preloaded' => $this->getPreloaded(),
             ':shuffle' => $this->getShuffle(),
@@ -459,7 +459,7 @@ class CT_Main implements \JsonSerializable
             'user_id' => $this->getUserId(),
             'context_id' => $this->getContextId(),
             'link_id' => $this->getLinkId(),
-            'title' => $this->getTitle(),           
+            'title' => $this->getTitle(),
             'seen_splash' => $this->getSeenSplash(),
             'preloaded' => $this->getPreloaded(),
             'shuffle' => $this->getShuffle(),

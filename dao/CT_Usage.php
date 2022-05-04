@@ -2,6 +2,7 @@
 
 namespace CT;
 
+use Exception;
 use \Tsugi\Core\Result;
 
 class CT_Usage implements \JsonSerializable
@@ -16,7 +17,7 @@ class CT_Usage implements \JsonSerializable
     private $timeScore;
 
 public function __construct(){
- 
+
 }
 
 public static function constructValues($idExercise, $user, $understandabilityScore, $difficultyScore, $timeScore){
@@ -46,7 +47,7 @@ public function save() {
         $REST_CLIENT_REPO->getClient()->request('POST', $url, [
             'json' => $this
         ]);
-        
+
         //Method to update the score
         $test = $this->saveAverageGrade();
 
@@ -60,22 +61,22 @@ public function save() {
         $statusCode = $requestResponse->getStatusCode();
 
         return $statusCode;
-        
+
 }
-    
+
     //Updates the score of the test or exercise
     public function saveAverageGrade() {
         global $REST_CLIENT_REPO;
-        
+
         //call to recover the object from the repo
         $url = "api/tests/getTestExerciseId1/{$this->getIdExercise()}";
 
         $requestResponse = $REST_CLIENT_REPO->getClient()->request('GET', $url, [
             'json' => $this
         ]);
-        
+
         $response = $requestResponse->toArray();
-        
+
         //if obejct->exercises is a Test object
         if ($response->exercises) {
             foreach ($response->exercises as $key => $exercise) {
@@ -117,15 +118,15 @@ public function save() {
 
             $response->averageGrade = ($response->averageGradeUnderstability + $response->averageGradeDifficulty + $response->averageGradeTime) / 3;
         }
-        
+
         return $response;
     }
-    
+
      static function MapJsonToUsagesArray($json) {
         $response = json_decode($json);
         $usages = array();
-            foreach ($response as $usage) {  
-               
+            foreach ($response as $usage) {
+
                 $CTUsage = new CT_Usage();
                 $CTUsage->setId($usage->id);
                 $CTUsage->setIdExercise($usage->idExercise);
@@ -142,7 +143,7 @@ public function save() {
                 $CTUsage->setUnderstandabilityScore($usage->understandabilityScore);
                 $CTUsage->setDifficultyScore($usage->difficultyScore);
                 $CTUsage->setTimeScore($usage->timeScore);
-               
+
                 array_push($usages, $CTUsage);
         }
         return $usages;
@@ -158,8 +159,8 @@ public function save() {
             'timeScore' => $this->getTimeScore(),
         ];
     }
-    
-    
+
+
     static function getUsages($exercises, $students) {
         global $REST_CLIENT_REPO;
 
@@ -179,9 +180,11 @@ public function save() {
         $usagesResponse = $REST_CLIENT_REPO->getClient()->request('GET', $url, [
             'json' => $array
         ]);
-        $responseContent = $usagesResponse->getContent();
 
-        return self::MapJsonToUsagesArray($responseContent);
+        $responseContent = $usagesResponse->getContent();
+        $responseUsage = self::MapJsonToUsagesArray($responseContent);
+
+        return $responseUsage;
     }
 
 public function getId() {
@@ -247,7 +250,5 @@ public function getCtId() {
 public function setCtId($ctId): void {
     $this->ctId = $ctId;
 }
-
-
 
 }

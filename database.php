@@ -24,15 +24,15 @@ $DATABASE_INSTALL = array(
     user_id     INTEGER NOT NULL,
     context_id  INTEGER NOT NULL,
 	link_id     INTEGER NOT NULL,
-	title       VARCHAR(255) NULL,	
+	title       VARCHAR(255) NULL,
 	seen_splash BOOL NOT NULL DEFAULT 0,
 	preloaded BOOL NOT NULL DEFAULT 0,
 	shuffle BOOL NOT NULL DEFAULT 0,
 	points      FLOAT NOT NULL DEFAULT 100,
     modified    datetime NULL,
-    
+
     PRIMARY KEY(ct_id)
-	
+
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8"),
 
     array("{$CFG->dbprefix}ct_exercise",
@@ -41,18 +41,16 @@ $DATABASE_INSTALL = array(
     ct_id         INTEGER NOT NULL,
     ak_id         VARCHAR(50) NULL,
     exercise_num  INTEGER NULL,
-    title         VARCHAR (50) NOT NULL,    
+    title         VARCHAR (50) NOT NULL,
     statement     TEXT NULL,
     hint          VARCHAR (50) NULL,
-    exercise_must VARCHAR (50) ,
-    exercise_musnt VARCHAR (50) ,
-    
+
     CONSTRAINT `{$CFG->dbprefix}ct_ibfk_6`
         FOREIGN KEY (`ct_id`)
         REFERENCES `{$CFG->dbprefix}ct_main` (`ct_id`)
         ON DELETE CASCADE,
     PRIMARY KEY(exercise_id, ct_id)
-	
+
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8"),
 
     array( "{$CFG->dbprefix}ct_answer",
@@ -65,20 +63,20 @@ $DATABASE_INSTALL = array(
     answer_txt   TEXT NULL,
     answer_success BOOL NOT NULL DEFAULT 0,
     modified     datetime NULL,
-    
+
     CONSTRAINT `{$CFG->dbprefix}ct_ibfk_7`
         FOREIGN KEY (`exercise_id` )
         REFERENCES `{$CFG->dbprefix}ct_exercise` (`exercise_id`)
         ON DELETE CASCADE,
-        
+
     CONSTRAINT `{$CFG->dbprefix}ct_ibfk_8`
         FOREIGN KEY (`ct_id`)
         REFERENCES `{$CFG->dbprefix}ct_main` (`ct_id`)
         ON DELETE CASCADE,
-    
+
     UNIQUE (user_id, exercise_id, ct_id),
     PRIMARY KEY(answer_id)
-    
+
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8"),
 
     array( "{$CFG->dbprefix}ct_code_exercise",
@@ -91,7 +89,7 @@ $DATABASE_INSTALL = array(
     exercise_output_test TEXT NULL DEFAULT NULL,
     exercise_output_grade TEXT NULL DEFAULT NULL,
     exercise_solution TEXT NULL DEFAULT NULL,
-    
+
   PRIMARY KEY (exercise_id, ct_id),
   CONSTRAINT `{$CFG->dbprefix}ct_ibfk_3`
     FOREIGN KEY (`exercise_id`, `ct_id`)
@@ -110,7 +108,7 @@ ENGINE = InnoDB DEFAULT CHARACTER SET = utf8"),
     exercise_solution TEXT NULL DEFAULT NULL,
     exercise_probe TEXT NULL DEFAULT NULL,
     exercise_onfly LONGTEXT NULL DEFAULT NULL,
-        
+
   PRIMARY KEY (exercise_id, ct_id),
   CONSTRAINT `{$CFG->dbprefix}ct_ibfk_4`
     FOREIGN KEY (`exercise_id`, `ct_id`)
@@ -126,14 +124,14 @@ ENGINE = InnoDB DEFAULT CHARACTER SET = utf8"),
     user_id         INTEGER NOT NULL,
     grade           FLOAT NOT NULL DEFAULT 0,
 	modified        datetime NULL,
-    
+
     CONSTRAINT `{$CFG->dbprefix}ct_ibfk_5`
         FOREIGN KEY (`ct_id`)
         REFERENCES `{$CFG->dbprefix}ct_main` (`ct_id`)
         ON DELETE CASCADE,
-    
+
     PRIMARY KEY(grade_id)
-    
+
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8"),
 );
 

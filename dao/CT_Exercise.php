@@ -20,15 +20,13 @@ class CT_Exercise implements \JsonSerializable {
     private $averageGrade;
     private $numberVotes;
     private $keywords;
-    private $exercise_must;
-    private $exercise_musnt;
     private $owner;
     private $author;
     private $sessionLanguage;
 
     //get the exercise from de db
     static function withId($exercise_id = null) {
-        
+
         $query = \CT\CT_DAO::getQuery('exercise', 'getById');
         $arr = array(
             ':exercise_id' => $exercise_id,
@@ -49,7 +47,7 @@ class CT_Exercise implements \JsonSerializable {
             $this->title = $exercise->getTitle();
             $this->akId = $exercise->getAkId();
             $this->statement = $exercise->getStatement();
-            $this->hint = $exercise->getHint();       
+            $this->hint = $exercise->getHint();
             $this->difficulty = $exercise->getDifficulty();
             $this->averageGradeUnderstability = $exercise->getAverageGradeUnderstability();
             $this->averageGradeDifficulty = $exercise->getAverageGradeDifficulty();
@@ -57,8 +55,6 @@ class CT_Exercise implements \JsonSerializable {
             $this->averageGrade = $exercise->getAverageGrade();
             $this->numberVotes = $exercise->getNumberVotes();
             $this->keywords = $exercise->getKeywords();
-            $this->exercise_must = $exercise->getExerciseMust();
-            $this->exercise_musnt = $exercise->getExerciseMusnt();
             $this->owner = $_SESSION["lti"]["link_title"];
             $this->author = $_SESSION["lti"]["user_displayname"];
             $this->sessionLanguage = $SESSION["lti"]["user_locale"];
@@ -73,7 +69,7 @@ class CT_Exercise implements \JsonSerializable {
             'exercise_num' => $this->getExerciseNum(),
             'title' => $this->getTitle(),
             'statement' => $this->getStatement(),
-            'hint' => $this->getHint(),  
+            'hint' => $this->getHint(),
             'akId' => $this->getAkId(),
             'difficulty' => $this->getDifficulty(),
             'averageGradeUnderstability' => $this->getAverageGradeUnderstability(),
@@ -82,8 +78,6 @@ class CT_Exercise implements \JsonSerializable {
             'averageGrade' => $this->getAverageGrade(),
             'numberVotes' => $this->getNumberVotes(),
             'keywords' => $this->getKeywords(),
-            'exercise_must' => $this->getExerciseMust(),
-            'exercise_musnt' => $this->getExerciseMusnt(),
             'owner' => $this->getOwner(),
             'author' => $this->getAuthor(),
             'sessionLanguage' => $this->getSessionLanguage()
@@ -117,7 +111,7 @@ class CT_Exercise implements \JsonSerializable {
         return $response;
     }
 
-    
+
     function createAnswer($user_id, $answer_txt, $answer_language = null, $answer_output = null) {
         $answer = \CT\CT_Answer::getByUserAndExercise($user_id, $this->getExerciseId(), $this->getCtId());
         if ($answer->getAnswerId() !== null) {
@@ -125,8 +119,9 @@ class CT_Exercise implements \JsonSerializable {
         } else {
             $exists = false;
         }
+        $_SESSION["existe"] = $exists;
         $array = Array();
-        
+
         //fill the answer
         $answer->setUserId($user_id);
         $answer->setExerciseId($this->getExerciseId());
@@ -137,7 +132,7 @@ class CT_Exercise implements \JsonSerializable {
         }
         $answer->setAnswerSuccess(str_starts_with(strtolower($answer_output), strtolower('Correct')));
         $answer->setCtId($this->getCtId());
-        
+
         //save the answer
         $answer->save();
         $this->answers = $this->getAnswers();
@@ -149,7 +144,7 @@ class CT_Exercise implements \JsonSerializable {
         return $array;
     }
 
-    
+
     static function findExerciseForImportByPage($page) {
         global $REST_CLIENT_REPO;
         $url = "api/exercises/getAllExercises/$page";
@@ -174,9 +169,9 @@ class CT_Exercise implements \JsonSerializable {
         }
         $array = CT_Test::checker("exercises");
         $postData = $array["postData"];
-      
+
         $url = $array["url"] . "/" . $page;
-        
+
         //if are tags
         if (isset($postData)) {
             $response = $REST_CLIENT_REPO->getClient()->request('GET', $url, [
@@ -193,7 +188,7 @@ class CT_Exercise implements \JsonSerializable {
             $array = ['exercises' => $exercises, 'totalPages' => $totalPages[0]];
         } else {
             //if not tags
-            
+
             $array = \CT\CT_Exercise::findExerciseForImportByPage($page);
         }
         return $array;
@@ -203,7 +198,7 @@ class CT_Exercise implements \JsonSerializable {
         global $REST_CLIENT_REPO;
         //Deletes the value passed
         CT_Test::checkerDelete($value);
-        
+
         //Check if there is any value left
         $array = CT_Test::checker("exercises");
         $postData = $array["postData"];
@@ -222,7 +217,7 @@ class CT_Exercise implements \JsonSerializable {
             $array = ['exercises' => $exercises, 'totalPages' => $totalPages[0]];
         } else {
             //if there is no value left
-            
+
             $array = \CT\CT_Exercise::findExerciseForImportByPage(0);
         }
         return $array;
@@ -232,14 +227,14 @@ class CT_Exercise implements \JsonSerializable {
     static function findExerciseForImportId($id) {
         global $REST_CLIENT_REPO;
         $url = "api/tests/getExercise/$id";
-        $main = new \CT\CT_Main($_SESSION["ct_id"]);       
+        $main = new \CT\CT_Main($_SESSION["ct_id"]);
         $response = $REST_CLIENT_REPO->getClient()->request('GET', $url);
         $exerciseArray = $response->toArray();
         $exercise = json_decode(json_encode($exerciseArray));
-        
-        //check what type of exercise is to choose constructor  
+
+        //check what type of exercise is to choose constructor
             $CTExercise = CT_Test::mapObjectToCodeExercise($exercise);
-        
+
         return $CTExercise;
     }
 
@@ -247,7 +242,7 @@ class CT_Exercise implements \JsonSerializable {
     static function findExerciseForImportAkId($id) {
         global $REST_CLIENT_REPO;
         $url = "api/tests/getExercise/id/$id";
-        $main = new \CT\CT_Main($_SESSION["ct_id"]);        
+        $main = new \CT\CT_Main($_SESSION["ct_id"]);
         $response = $REST_CLIENT_REPO->getClient()->request('GET', $url);
         $respBody = $response->getContent();
         if(strlen($respBody) == 0){
@@ -255,10 +250,10 @@ class CT_Exercise implements \JsonSerializable {
         }
 
         $exerciseArray = $response->toArray();
-        $exercise = json_decode(json_encode($exerciseArray));        
-        //check what type of exercise is to choose constructor     
+        $exercise = json_decode(json_encode($exerciseArray));
+        //check what type of exercise is to choose constructor
         $CTExercise = CT_Test::mapObjectToCodeExercise($exercise);
-        
+
         return $CTExercise;
     }
 
@@ -266,16 +261,16 @@ class CT_Exercise implements \JsonSerializable {
         $response = json_decode($json);
         $exercises = array();
         $main = new \CT\CT_Main($_SESSION["ct_id"]);
-        
-        
+
+
         if ($response) {
             foreach ($response as $exercise) {
 
-                
+
                 //check what type of exercise is to choose constructor
-               
+
                     $CTExercise = CT_Test::mapObjectToCodeExercise($exercise);
-                
+
                 array_push($exercises, $CTExercise);
             }
             return $exercises;
@@ -315,15 +310,15 @@ class CT_Exercise implements \JsonSerializable {
     public function getNumberAnswers() {
         return count($this->getAnswers());
     }
-    
+
     public function getExerciseCode()
     {
         global $CFG;
         $class = $this->getMain()->getProperty('class');
-        
+
         return new $class($this->getExerciseId());
-        
-        
+
+
         }
 
     /**
@@ -364,11 +359,9 @@ class CT_Exercise implements \JsonSerializable {
                 ':title' => $this->getTitle(),
                 ':statement' => $this->getStatement(),
                 ':hint' => $this->getHint(),
-                ':exercise_must' => $this->getExerciseMust(),
-                ':exercise_musnt' => $this->getExerciseMusnt()
             );
             $query['PDOX']->queryDie($query['sentence'], $arr);
-            
+
         }
     }
 
@@ -391,32 +384,6 @@ class CT_Exercise implements \JsonSerializable {
             ':ct_id' => $this->getCtId()
         );
         $query['PDOX']->queryDie($query['sentence'], $arr);
-    }
-
-    protected function preGrade(CT_Answer $answer) {
-        $answerTxt = $answer->getAnswerTxt();
-        $preGrade = (true && 1);
-        return $preGrade;
-    }
-    
-     /**
-     * @param $answerTxt
-     * @param $must_musnt
-     * @param $all bool true: must contain all expresions | false: shouldn't contain any
-     * @return bool
-     */
-    protected function contains($answerTxt, $must_musnt, $all)
-    {
-        if (strlen($must_musnt) == 0 ) return true;
-        $array_of_expressions = explode(PHP_EOL, $must_musnt);
-        $i = 0;
-        foreach ($array_of_expressions as $expression)
-        {
-            if (stripos($answerTxt, trim($expression)) !== FALSE) $i++;
-        }
-
-        $contains = ($all && $i == count($array_of_expressions)) || (!$all && $i == 0);
-        return $contains;
     }
 
     public function getMain() {
@@ -473,7 +440,7 @@ class CT_Exercise implements \JsonSerializable {
         $this->ct_id = $ct_id;
     }
 
-    
+
     /**
      * @param mixed $owner
      */
@@ -592,22 +559,6 @@ class CT_Exercise implements \JsonSerializable {
 
     public function setKeywords($keywords): void {
         $this->keywords = $keywords;
-    }
-
-    public function getExerciseMust() {
-        return $this->exercise_must;
-    }
-
-    public function getExerciseMusnt() {
-        return $this->exercise_musnt;
-    }
-
-    public function setExerciseMust($exercise_must): void {
-        $this->exercise_must = $exercise_must;
-    }
-
-    public function setExerciseMusnt($exercise_musnt): void {
-        $this->exercise_musnt = $exercise_musnt;
     }
 
 }

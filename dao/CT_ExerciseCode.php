@@ -23,15 +23,15 @@ class CT_ExerciseCode extends CT_Exercise
         \CT\CT_DAO::setObjectPropertiesFromArray($this, $context);
         $this->setExerciseParentProperties();
     }
-    
-    
+
+
    // necessary to use json_encode with exerciseCode objects
     public function jsonSerialize() {
         return [
             'exercise_id' => $this->getExerciseId(),
             'ct_id' => $this->getCtId(),
             'exercise_num' => $this->getExerciseNum(),
-            'title' => $this->getTitle(),  
+            'title' => $this->getTitle(),
             'statement' => $this->getStatement(),
             'hint' => $this->getHint(),
             'difficulty' => $this->getDifficulty(),
@@ -41,15 +41,13 @@ class CT_ExerciseCode extends CT_Exercise
             'averageGrade' => $this->getAverageGrade(),
             'numberVotes' => $this->getNumberVotes(),
             'keywords' => $this->getKeywords(),
-            'exercise_must' => $this->getExerciseMust(),
-            'exercise_musnt' => $this->getExerciseMusnt(),
             'exercise_language' => $this->getExerciseLanguage(),
             'exercise_input_test' => $this->getExerciseInputTest(),
             'exercise_input_grade' => $this->getExerciseInputGrade(),
             'exercise_output_test' => $this->getExerciseOutputTest(),
             'exercise_output_grade' => $this->getExerciseOutputGrade(),
             'exercise_solution' => $this->getExerciseSolution()
-            
+
         ] + parent::jsonSerialize();
     }
 
@@ -313,7 +311,7 @@ class CT_ExerciseCode extends CT_Exercise
     public function save() {
         $isNew = $this->isNew();
         parent::save();
-        
+
         /*
             This was changing the value for the field "getExerciseOutputTest",
             right now it's used to save the expected output for the student
@@ -331,5 +329,5 @@ class CT_ExerciseCode extends CT_Exercise
             ':exercise_solution' => $this->getExerciseSolution(),
         );
         $query['PDOX']->queryDie($query['sentence'], $arr);
-    }   
+    }
 }

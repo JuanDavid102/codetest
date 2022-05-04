@@ -6,7 +6,7 @@ global $translator;
 if ($USER->instructor) {
     $result = array();
     $exercisePost = $_POST["exercise"];
-    
+
     if (isset($exercisePost['title']) && trim($exercisePost['title']) != '' && isset($exercisePost['exercise_language']) && trim($exercisePost['exercise_language']) != '') {
         $exercisePost['author'] = $_SESSION["lti"]["user_displayname"];
         $exercisePost['owner'] = $_SESSION["lti"]["link_title"];
@@ -21,7 +21,7 @@ if ($USER->instructor) {
 
         //map the returned exercise
         $object = json_decode($result);
-        $exercise1 = \CT\CT_Test::mapObjectToCodeExercise($object); 
+        $exercise1 = \CT\CT_Test::mapObjectToCodeExercise($object);
         $exercise1->setCtId($_SESSION["ct_id"]);
 
         //Save the returned exercise on the db

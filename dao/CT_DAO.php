@@ -31,10 +31,11 @@ class CT_DAO {
                 $function = array($object, 'set'.preg_replace('/[^\da-z]/i', '', mb_convert_case($k, MB_CASE_TITLE)));
                 if($v=='')$v=null;
                 if(is_callable($function)) call_user_func_array($function, array($v));
-                
             }
         }
+
     }
+
 
     public static function setObjectPropertiesToArray($object) {
         $objArray = array();
@@ -51,15 +52,15 @@ class CT_DAO {
         foreach($array as $element) {
 
                 $object = new $class();
-                 self::setObjectPropertiesFromArray($object, $element); 
-         
+                 self::setObjectPropertiesFromArray($object, $element);
+
             array_push($arrayObject, $object);
-        } 
-       
+        }
+
         return $arrayObject;
     }
-    
-   
+
+
 
     public static function getQuery($class, $name)
     {
@@ -85,7 +86,7 @@ class CT_DAO {
                 . "`user_id` = :user_id, "
                 . "`context_id` = :context_id, "
                 . "`link_id` = :link_id, "
-                . "`title` = :title, "   
+                . "`title` = :title, "
                 . "`seen_splash` = :seen_splash, "
                 . "`preloaded` = :preloaded, "
                 . "`shuffle` = :shuffle, "
@@ -98,8 +99,8 @@ class CT_DAO {
         );
         $ExerciseQueries = array(
             'insert' => "INSERT INTO {$connection['p']}ct_exercise "
-                . "( `exercise_id`, `ct_id`, `exercise_num` , `title`, `exercise_must`, `exercise_musnt`, `statement`, `hint`, `ak_id` ) "
-                . "VALUES ( :exercise_id, :ct_id, :exercise_num, :title, :exercise_must, :exercise_musnt, :statement, :hint, :akId)",
+                . "( `exercise_id`, `ct_id`, `exercise_num` , `title`, `statement`, `hint`, `ak_id` ) "
+                . "VALUES ( :exercise_id, :ct_id, :exercise_num, :title, :statement, :hint, :akId)",
             'update' => "UPDATE {$connection['p']}ct_exercise set "
                 . "`ct_id` = :ct_id, "
                 . "`exercise_num` = :exercise_num, "
@@ -109,7 +110,7 @@ class CT_DAO {
                 . "`ct_id` = :ct_id, "
                 . "`exercise_num` = :exercise_num, "
                 . "`exercise_id` = :exercise_id, "
-                . "WHERE exercise_id = :exercise_id AND ct_id = :ct_id",            
+                . "WHERE exercise_id = :exercise_id AND ct_id = :ct_id",
             'delete' => "DELETE FROM {$connection['p']}ct_exercise WHERE `exercise_id` = :exercise_id AND `ct_id` = :ct_id;",
             'exists' => "SELECT exercise_id as exerciseId FROM {$connection['p']}ct_exercise WHERE "
             . "exercise_id = :exercise_id AND ct_id = :ct_id;",
@@ -156,7 +157,7 @@ class CT_DAO {
                 . "`exercise_database` = :exercise_database, "
                 . "`exercise_solution` = :exercise_solution, "
                 . "`exercise_probe` = :exercise_probe, "
-                . "`exercise_onfly` = :exercise_onfly "   
+                . "`exercise_onfly` = :exercise_onfly "
                 . "WHERE exercise_id = :exercise_id",
             'getById' => "SELECT * FROM {$connection['p']}ct_sql_exercise "
                 . "WHERE exercise_id = :exercise_id",

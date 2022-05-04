@@ -9,11 +9,7 @@
 
         {# The tilde characther '~' is used to concatenate strings, turns operands in strings and then concatenates #}
         {{ include (CFG.CT_Types.formsPath ~ main.getProperty('instructorForm')) }}
-        
-        <label for="exerciseMust-1" class="labelForm">{%trans%}new-exercise-form.mustcontainseparatedlines{%endtrans%}</label>
-        <textarea class="form-control" id="exerciseMust-1" name="exercise[exercise_must]" rows="2"></textarea>
-        <label for="exerciseMusnt-1" class="labelForm">{%trans%}new-exercise-form.shouldntcontain{%endtrans%}</label>
-        <textarea class="form-control lastElementForm" id="exerciseMusnt-1" name="exercise[exercise_musnt]" rows="2"></textarea>
-    </form>
+
+        </form>
 </div>
 

@@ -30,7 +30,7 @@
                             label: "new-exercise-form.keywordsseparatedlines"|trans,
                             name: 'exercise[keywords]',
                             id: 'exerciseKeywords',
-                            
+
                         } only
                     %}
                     {% endembed %}
@@ -101,7 +101,7 @@
                                             hideLabel: true,
                                             languages: languages,
                                             exerciseLanguage: exerciseLanguage
-                                            
+
                                         } only
                                     %}
                                         {% block input %}
@@ -119,64 +119,35 @@
                 </div>
                 <div class="w-full mt-4">
                     {% embed "components/ct-textarea.php.twig"
-                        with { 
+                        with {
                             label: "new-exercise-form.labels.tests"|trans,
                             name: '',
                             required:true
                         } only
                         %}
-                        {% block input %}                             
+                        {% block input %}
                             <div class="p-0 flex gap-3 items-stretch">
-                                <div class="w-full">                                      
+                                <div class="w-full">
                                     <div class="text-center">
                                        {%trans%}new-exercise-form.labels.inputs{%endtrans%}
-                                    </div>                                   
+                                    </div>
                                     <textarea class="tests-textarea" name="exercise[exercise_input_test]" cols="30" rows="5" id="input"></textarea>
-                                </div>                                
+                                </div>
                                 <div class="flex items-center pt-6">
                                     <span>
                                         →
                                     </span>
-                                </div>                                
-                                <div class="w-full">                                     
-                                    <div class="text-center">                                    
+                                </div>
+                                <div class="w-full">
+                                    <div class="text-center">
                                         {%trans%}new-exercise-form.labels.outputs{%endtrans%}
-                                    </div>                                    
+                                    </div>
                                     <textarea class="tests-textarea" name="exercise[exercise_output_test]" cols="30" rows="5" id="output"></textarea>
                                 </div>
                             </div>
                         {% endblock %}
                     {% endembed %}
-                </div>   
-                <div class="w-full mt-4">
-                    {% embed "components/ct-textarea.php.twig"
-                        with { 
-                            label: "new-exercise-form.labels.restrictions"|trans,
-                            name: ''
-                        } only
-                        %}
-                        {% block input %}
-                            <div class="p-0 flex gap-10 items-stretch">
-                                <div class="flex-grow">
-                                    <div class="text-center">
-                                        {%trans%}
-                                            new-exercise-form.mustcontainseparatedlines
-                                        {%endtrans%}
-                                    </div>
-                                    <textarea class="tests-textarea" name="exercise[exercise_must]" rows="5"></textarea>
-                                </div>
-                                <div class="flex-grow">
-                                    <div class="text-center">
-                                        {%trans%}
-                                            new-exercise-form.shouldntcontain
-                                        {%endtrans%}
-                                    </div>
-                                    <textarea class="tests-textarea" name="exercise[exercise_musnt]" rows="5"></textarea>
-                                </div>
-                            </div>
-                        {% endblock %}
-                    {% endembed %}
-                </div>            
+                </div>
                 <div class="w-full">
                     <div class="flex items-center justify-end py-3 mt-3 gap-3">
                         <div id="requiredAlert" class="hidden">
@@ -184,7 +155,7 @@
                                 <span class="important"> ! </span>
                                 {%trans%}warning.obligatory{%endtrans%}
                             </strong>
-                        </div>          
+                        </div>
                         <button type="button" class="btn btn-success" onclick="showNewExerciseRow()">  <span aria-hidden="true" class="fa fa-fw fa-save"></span>
                             {%trans%}create-exercise-modal.save-exercise{%endtrans%}</button>
                         <button type="button" class="btn btn-default" onclick="exerciseCancelAction()" data-dismiss="modal"><span aria-hidden="true" class="fa fa-fw fa-times"></span>

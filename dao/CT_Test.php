@@ -3,7 +3,7 @@
 namespace CT;
 
 
-class CT_Test implements \JsonSerializable 
+class CT_Test implements \JsonSerializable
 {
    private $test_id;
    private $description;
@@ -19,14 +19,14 @@ class CT_Test implements \JsonSerializable
         }
         \CT\CT_DAO::setObjectPropertiesFromArray($this, $context);
     }
-    
+
      public function jsonSerialize() {
         return [
             'test_id' => $this->getTest_id(),
             'description' => $this->getDescription(),
             'name' => $this->getName(),
             'exercises' => $this->getExercises(),
-            
+
         ];
     }
 
@@ -76,7 +76,7 @@ class CT_Test implements \JsonSerializable
         }
         $CTExercise->setStatement($exercise->statement);
         (isset($exercise->hint) ? $CTExercise->setHint($exercise->hint) : null);
-        $CTExercise->setDifficulty($exercise->difficulty);       
+        $CTExercise->setDifficulty($exercise->difficulty);
         $CTExercise->setTestId($testId);
         isset($exercise->averageGrade) ? $CTExercise->setAverageGrade($exercise->averageGrade) : false;
         isset($exercise->keywords) ? $CTExercise->setKeywords($exercise->keywords) : false;
@@ -86,8 +86,6 @@ class CT_Test implements \JsonSerializable
         (isset($exercise->exercise_output_test) ? $CTExercise->setExerciseOutputTest($exercise->exercise_output_test) : null );
         (isset($exercise->exercise_output_grade) ? $CTExercise->setExerciseInputGrade($exercise->exercise_output_grade) : null );
         (isset($exercise->exercise_solution) ? $CTExercise->setExerciseSolution($exercise->exercise_solution) : null );
-        (isset($exercise->exercise_must) ? $CTExercise->setExerciseMust($exercise->exercise_must) : null );
-        (isset($exercise->exercise_musnt) ? $CTExercise->setExerciseMusnt($exercise->exercise_musnt) : null );
 
         return $CTExercise;
     }
@@ -102,7 +100,7 @@ class CT_Test implements \JsonSerializable
         $exercises1 = ($response->exercises);
         $exercises = array();
         foreach ($exercises1 as $exercise) {
-            
+
             $CTExercise = self::mapObjectToCodeExercise($exercise, $response->id);
             array_push($exercises, $CTExercise);
         }
@@ -112,7 +110,7 @@ class CT_Test implements \JsonSerializable
 
     static function checkerAdd($value) {
         global $CFG;
-        
+
         //checks the category of the value and adds it if it is not
         if (in_array($value, $CFG->type)) {
             if (!in_array($value, $_SESSION['tags']['type'])) {
@@ -123,7 +121,7 @@ class CT_Test implements \JsonSerializable
                 array_push($_SESSION['tags']['difficulty'], $value);
             }
         } else if (is_numeric($value) && $value <= 5 && $value > 0 ) {
-           
+
             $_SESSION['tags']['averageGrade'] = Array();
             array_push($_SESSION['tags']['averageGrade'], $value);
         } else if ($value=="delete") {
@@ -139,7 +137,7 @@ class CT_Test implements \JsonSerializable
 
     static function checkerDelete($value) {
         //Search for the value and delete it
-        
+
         if (($key = array_search($value, $_SESSION['tags'])) !== false) {
             unset($_SESSION['tags'][$key]);
             $_SESSION['tags']= array_values($_SESSION['tags']);
@@ -165,7 +163,7 @@ class CT_Test implements \JsonSerializable
                 array_push($arrayTags, $x);
             }
         }
-   
+
         //depending on the amount of values returns a url and the data to post in the call
         if (count($arrayTags) == 4) {
 
@@ -194,7 +192,7 @@ class CT_Test implements \JsonSerializable
         }
     }
 
-    
+
     static function findTestForImportByPage($page) {
         global $REST_CLIENT_REPO;
         $url = "api/tests/getAllTest/$page";
@@ -222,7 +220,7 @@ class CT_Test implements \JsonSerializable
         }
         return $tests1;
     }
-    
+
     static function in_array_any($needles, $haystack) {
         return !empty(array_intersect($needles, $haystack));
     }
@@ -247,11 +245,11 @@ class CT_Test implements \JsonSerializable
         return $test;
     }
 
-    
+
     //Find the Test exercises on the repo by the tags
     static function findTestForImportByValue($value = null, $page = 0) {
         global $REST_CLIENT_REPO;
-        
+
         //if values is passed check if is already on the array
         if ($value) {
             self::checkerAdd($value);
@@ -260,7 +258,7 @@ class CT_Test implements \JsonSerializable
 
         $postData = $array["postData"];
         $url = $array["url"] . "/" . $page;
-        
+
         //if are tags
         if (isset($postData)) {
             $response = $REST_CLIENT_REPO->getClient()->request('GET', $url, [
@@ -286,7 +284,7 @@ class CT_Test implements \JsonSerializable
         global $REST_CLIENT_REPO;
         //Deletes the value passed
         self::checkerDelete($value);
-        
+
          //Check if there is any value left
         $array = self::checker("tests");
         $postData = $array["postData"];
@@ -305,7 +303,7 @@ class CT_Test implements \JsonSerializable
             $array = ['tests' => $tests, 'totalPages' => $totalPages[0]];
         } else {
             //if there is no value left
-            
+
             $array = \CT\CT_Test::findTestForImportByPage(0);
         }
         return $array;
@@ -317,10 +315,10 @@ class CT_Test implements \JsonSerializable
         $response = $REST_CLIENT_REPO->getClient()->request('GET', $url);
 
         $result = $response->getContent();
-        
+
         $CTTest= self::MapJsonToTest($result);
         $test = self::checkerTest($CTTest);
-      
+
         return $test;
     }
 
@@ -351,7 +349,7 @@ class CT_Test implements \JsonSerializable
         $answer->setUserId($user_id);
         $answer->setExerciseId($this->getExerciseId());
         $answer->setAnswerTxt($answer_txt);
-        
+
         //checks if is correct
         if ($this->preGrade($answer)) {
             $this->grade($answer);
@@ -401,7 +399,7 @@ class CT_Test implements \JsonSerializable
         $this->ct_id = $ct_id;
     }
 
-  
+
     /**
      * @return mixed
      */
@@ -421,7 +419,7 @@ class CT_Test implements \JsonSerializable
     /**
      * @return \CT\CT_Answer[] $answers
      */
-   
+
 
     /**
      * @return CT_Exercise
@@ -441,7 +439,7 @@ class CT_Test implements \JsonSerializable
         $exercise_id = $this->getExerciseId();
         return !(isset($exercise_id) && $exercise_id > 0);
     }
-    
+
     public function getTest_id() {
         return $this->test_id;
     }
@@ -465,7 +463,7 @@ class CT_Test implements \JsonSerializable
     public function setExercises($exercises): void {
         $this->exercises = $exercises;
     }
-    
+
     public function getDescription() {
         return $this->description;
     }

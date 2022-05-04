@@ -57,3 +57,6 @@ rename table ct_sql_question to ct_sql_exercise;
 alter table ct_exercise add statement text null;
 
 alter table ct_exercise add hint varchar(250) null;
+
+alter table ct_exercise drop exercise_musnt;
+alter table ct_exercise drop exercise_must;
