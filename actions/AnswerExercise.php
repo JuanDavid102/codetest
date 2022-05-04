@@ -17,7 +17,6 @@ $result = array();
 if (!isset($answerText) || trim($answerText) == "") {
     $_SESSION['error'] = $translator->trans('backend-messages.answer.exercise.failed');
     $result["answer_content"] = false;
-    $result["prueba_funciona"] = true;
 } else {
     //Search for the exercise on the db and map
     $exercise = \CT\CT_Exercise::withId($exerciseId);
@@ -48,8 +47,6 @@ if (!isset($answerText) || trim($answerText) == "") {
 
     $array = $exercise1->createAnswer($USER->id, $answerText, $answerLanguage, $answerOutput);
     $answer = $array['answer'];
-
-    echo json_encode($_SESSION["existe"]); // se crea en createAnswer
 
     $result["answer_content"] = true;
     $result['exists'] = $array['exists'];

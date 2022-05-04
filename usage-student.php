@@ -5,7 +5,6 @@ include('views/dao/menu.php');
 $main = new \CT\CT_Main($_SESSION["ct_id"]);
 $exercises = $main->getExercises();
 $students = \CT\CT_User::getUsersWithAnswers($_SESSION["ct_id"]);
-//Los usuarios no tienen respuestas, porque las respuestas no se envían
 
 $studentAndDate = array();
 foreach($students as $student) {
@@ -15,7 +14,6 @@ foreach($students as $student) {
 arsort($studentAndDate);
 
 $totalExercises = count($exercises);
-// $students = [new \CT\CT_User($USER->id)];
 
 $usages = CT\CT_Usage::getUsages($exercises, $students);
 
