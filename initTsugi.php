@@ -3,6 +3,7 @@ require_once('config.php');
 require 'vendor/autoload.php';
 require_once $CFG->codetestBasePath. '/util/RestClient.php';
 require_once $CFG->codetestBasePath. '/util/JSONManager.php';
+include_once('util/ValidatorService.php');
 
 use Tsugi\Core\LTIX;
 use Tsugi\Core\Launch;
@@ -94,4 +95,6 @@ function logg($message){
     $timeFormat = $timeFormat->format('d/m/Y H:i:s');
     error_log("CT -> [$timeFormat] $message");
 }
+
+$validatorService = new ValidatorService;
 

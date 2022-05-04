@@ -15,12 +15,12 @@
         </div>
 
         {%
-            include (CFG.CT_Types.studentsPath ~ main.getProperty('studentView'))
+            include (main.getProperty('studentView'))
             with { inputValue: testsObj.inputValue, outputValue: testsObj.outputValue }
         %}
 
         <div class="w-full mt-4 mb-3">
-            {% set languages = main.getLanguages() %}
+            {% set languages = validatorService.getCodeLanguages() %}
             {% set exerciseLanguage = exercise.getExerciseLanguage() %}
             {% embed "components/ct-textarea.php.twig"
                 with {
@@ -54,11 +54,11 @@
                             %}
                                 {% block input %}
                                     <select id="typeSelect" name="answer_language" style="background: #fff;" id="answerLanguage">
-                                        {% for index, language in languages %}
+                                        {% for language in languages %}
                                             <option
-                                                value="{{ index }}"
-                                                {{ answerLanguage is defined ? (answerLanguage == index ? "selected" : "") : (exerciseLanguage == index ? "selected" : "") }}
-                                            >{{ language.name }}</option>
+                                                value="{{ language }}"
+                                                {{ answerLanguage is defined ? (answerLanguage == language ? "selected" : "") : (exerciseLanguage == language ? "selected" : "") }}
+                                            >{{ language }}</option>
                                         {% endfor %}
                                     </select>
                                 {% endblock %}

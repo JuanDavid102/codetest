@@ -74,7 +74,7 @@
                 </div>
                 <div class="w-full mt-4">
                     {% set exercise = newExercise %}
-                    {% set languages = main.getLanguages() %}
+                    {% set languages = validatorService.getCodeLanguages() %}
                     {% set exerciseLanguage = exercise.getExerciseLanguage() %}
                     {% embed "components/ct-textarea.php.twig"
                         with {
@@ -107,7 +107,7 @@
                                         {% block input %}
                                             <select id="typeSelect" name="exercise[exercise_language]" style="background: #fff;" id="exerciseLanguagee">
                                                 {% for language in languages %}
-                                                    <option value="{{ language.name }}" {{ exercise.getExerciseLanguage() == language.name ? "selected" : "" }}>{{ language.name }}</option>
+                                                    <option value="{{ language }}" {{ exercise.getExerciseLanguage() == language ? "selected" : "" }}>{{ language}}</option>
                                                 {% endfor %}
                                             </select>
                                         {% endblock %}

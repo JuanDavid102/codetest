@@ -31,6 +31,7 @@ echo $twig->render('pages/student-view.php.twig', array(
     'currentExerciseNumber' => $currentExerciseNumber,
     'exerciseNum' => $currentExerciseNumber,
     'main' => $main,
+    'validatorService' => $validatorService,
     'CFG' => $CFG,
 ));
 

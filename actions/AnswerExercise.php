@@ -9,7 +9,7 @@ $answerText = $_POST["answerText"];
 $exerciseNum = $_POST["exerciseNum"];
 
 // In databases doesn't exists answer_language, so we use -1
-$answerLanguage = $_POST["answer_language"] ?? -1;
+$answerLanguage = $_POST["answer_language"] ?? '';
 
 $result = array();
 
@@ -26,23 +26,18 @@ if (!isset($answerText) || trim($answerText) == "") {
     $exercise1 = new \CT\CT_ExerciseCode($exercise->getExerciseId());
     $answerOutput = null;
 
-    if($answerLanguage == 0) {
+    if($answerLanguage != '') {
         $client = HttpClient::create();
 
-        $response = $client->request('POST', "{$CFG->apiConfigs['xml-validator']['baseUrl']}eval", [
+        $response = $client->request("POST", "{$validatorService->getValidatorUrl($answerLanguage)}eval", [
             'json' => [
                 'date' => date('c'),
                 'program' => $answerText,
-                // 'learningObject' => $exercise1->getAkId(), //$exerciseId
+                'learningObject' => $exercise1->getAkId(), //$exerciseId
             ]
         ]);
 
         $answerOutput = $response->getContent();
-        // El error viene de aquí, pero el problema real parece provenir del http://java-validator:3000/eval
-        // Pues todos los parámetro enviados llegan correctamente.
-        // $answerText, date('c') y $exercise->getAkId() devuelven datos reales y comprobados.
-        // Y tampoco parece ser un error del HttpClient, pues cuando ponemos los mismos parámetros en el rested
-        // este, sale un error de que no se encuentra la web.
 
     }
 

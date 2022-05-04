@@ -20,6 +20,7 @@ echo $twig->render('pages/exercise-creation.php.twig', array(
     'OUTPUT' => $OUTPUT,
     'CFG' => $CFG,
     'menu' => $menu,
+    'validatorService' => $validatorService,
     'help' => $help(),
 ));
 
