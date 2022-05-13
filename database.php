@@ -44,7 +44,10 @@ $DATABASE_INSTALL = array(
     title         VARCHAR (50) NOT NULL,
     statement     TEXT NULL,
     hint          VARCHAR (50) NULL,
+<<<<<<< HEAD
     library       varchar (250) NULL,
+=======
+>>>>>>> a43afed2771babaa296a1ee02f2a33a7caa9f4b4
 
     CONSTRAINT `{$CFG->dbprefix}ct_ibfk_6`
         FOREIGN KEY (`ct_id`)

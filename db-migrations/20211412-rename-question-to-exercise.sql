@@ -60,6 +60,10 @@ alter table ct_exercise add hint varchar(250) null;
 
 alter table ct_exercise drop exercise_musnt;
 
+<<<<<<< HEAD
 alter table ct_exercise drop exercise_must;
 
 alter table ct_exercise add library varchar(250) null;
+=======
+alter table ct_exercise drop exercise_must;
+>>>>>>> a43afed2771babaa296a1ee02f2a33a7caa9f4b4

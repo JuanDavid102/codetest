@@ -48,8 +48,12 @@ class CT_ExerciseCode extends CT_Exercise
             'exercise_input_grade' => $this->getExerciseInputGrade(),
             'exercise_output_test' => $this->getExerciseOutputTest(),
             'exercise_output_grade' => $this->getExerciseOutputGrade(),
+<<<<<<< HEAD
             'exercise_solution' => $this->getExerciseSolution(),
             'exercise_library' => $this->getExerciseLibrary(),
+=======
+            'exercise_solution' => $this->getExerciseSolution()
+>>>>>>> a43afed2771babaa296a1ee02f2a33a7caa9f4b4
 
         ] + parent::jsonSerialize();
     }

@@ -16,7 +16,6 @@ class CT_ExerciseSQL extends CT_Exercise  implements \JsonSerializable
     const DBMS_MYSQL = 0;
     const DBMS_ORACLE = 1;
     const DBMS_SQLITE = 2;
-    const MUSNT = array('commit');
 
     public function __construct($exercise_id = null)
     {

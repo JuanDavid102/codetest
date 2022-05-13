@@ -8,9 +8,15 @@
         <textarea class="form-control" name="exercise[keywords]" id="exerciseKeywords" rows="3" placeholder="keyword1&#10;keyword2"></textarea>
 
         {# The tilde characther '~' is used to concatenate strings, turns operands in strings and then concatenates #}
+<<<<<<< HEAD
         {{ include (CFG.CT_Types.formsPath ~ main.getProperty('instructorForm')) }}
         <label for="filesToUpload" class="labelForm">{%trans%}new-exercise-form.filesToUploadtitle{%endtrans%}</label>
         <input type="file" name="filesToUpload[]" id="filesToUpload" multiple />
         </form>
+=======
+        {{ include (main.getProperty('instructorForm')) }}
+
+    </form>
+>>>>>>> a43afed2771babaa296a1ee02f2a33a7caa9f4b4
 </div>
 

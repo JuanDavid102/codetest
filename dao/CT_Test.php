@@ -86,7 +86,10 @@ class CT_Test implements \JsonSerializable
         (isset($exercise->exercise_output_test) ? $CTExercise->setExerciseOutputTest($exercise->exercise_output_test) : null );
         (isset($exercise->exercise_output_grade) ? $CTExercise->setExerciseInputGrade($exercise->exercise_output_grade) : null );
         (isset($exercise->exercise_solution) ? $CTExercise->setExerciseSolution($exercise->exercise_solution) : null );
+<<<<<<< HEAD
         (isset($exercise->library) ? $CTExercise->setLibrary($exercise->library) : null );
+=======
+>>>>>>> a43afed2771babaa296a1ee02f2a33a7caa9f4b4
 
         return $CTExercise;
     }
