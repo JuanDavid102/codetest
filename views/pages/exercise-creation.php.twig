@@ -9,6 +9,7 @@
             action="actions/AddExercise.php"
             method="post"
             class="exercise-form flex flex-wrap gap-2 justify-between"
+            enctype="multipart/form-data"
         >
             <input id="ownerName" type="hidden" value={{owner}} name="owner">
 
@@ -146,6 +147,18 @@
                                 </div>
                             </div>
                         {% endblock %}
+                    {% endembed %}
+                </div>
+                <div class="w-full mt-4">
+                    {% embed "components/ct-input.php.twig"
+                        with {
+                            label: "new-exercise-form.filesToUploadtitle"|trans,
+                            name: 'filesToUpload[]',
+                            id: 'filesToUpload',
+                            type: 'file',
+                            multiple: '',
+                        } only
+                        %}
                     {% endembed %}
                 </div>
                 <div class="w-full">

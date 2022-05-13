@@ -11,6 +11,7 @@ class CT_ExerciseCode extends CT_Exercise
     private $exercise_output_grade;
     private $exercise_solution;
     private $recalculateOutputs = false;
+    private $exercise_library;
 
     public function __construct($exercise_id = null)
     {
@@ -35,6 +36,7 @@ class CT_ExerciseCode extends CT_Exercise
             'statement' => $this->getStatement(),
             'hint' => $this->getHint(),
             'difficulty' => $this->getDifficulty(),
+            'library' => $this->getLibrary(),
             'averageGradeUnderstability' => $this->getAverageGradeUnderstability(),
             'averageGradeDifficulty' => $this->getAverageGradeDifficulty(),
             'averageGradeTime' => $this->getAverageGradeTime(),
@@ -46,7 +48,8 @@ class CT_ExerciseCode extends CT_Exercise
             'exercise_input_grade' => $this->getExerciseInputGrade(),
             'exercise_output_test' => $this->getExerciseOutputTest(),
             'exercise_output_grade' => $this->getExerciseOutputGrade(),
-            'exercise_solution' => $this->getExerciseSolution()
+            'exercise_solution' => $this->getExerciseSolution(),
+            'exercise_library' => $this->getExerciseLibrary(),
 
         ] + parent::jsonSerialize();
     }
@@ -65,6 +68,22 @@ class CT_ExerciseCode extends CT_Exercise
     public function setExerciseLanguage($exercise_language)
     {
         $this->exercise_language = $exercise_language;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExerciseLibrary()
+    {
+        return $this->exercise_library;
+    }
+
+    /**
+     * @param mixed $exercise_library
+     */
+    public function setExerciseLibrary($exercise_library)
+    {
+        $this->exercise_library = $exercise_library;
     }
 
     /**
@@ -327,6 +346,7 @@ class CT_ExerciseCode extends CT_Exercise
             ':exercise_output_test' => $this->getExerciseOutputTest(),
             ':exercise_output_grade' => $this->getExerciseOutputGrade(),
             ':exercise_solution' => $this->getExerciseSolution(),
+            ':exercise_library' => $this->getExerciseLibrary(),
         );
         $query['PDOX']->queryDie($query['sentence'], $arr);
     }

@@ -16,8 +16,26 @@ if ($USER->instructor) {
         $exercises = Array();
         array_push($exercises, $exercise);
 
+        $filesLocation = array();
+
+        if (count($filesLocation) != 0) {
+            $target_dir = "uploads/";
+
+            if (!file_exists($target_dir)) {
+                mkdir($target_dir, 0777) or die("Fail to create directory");
+            }
+
+            foreach ($_FILES['filesToUpload']['tmp_name'] as $key => $name) {
+            //echo var_dump($_FILES['fileToUpload']['name'][$key]);
+                $target_file = $target_dir . basename($_FILES["filesToUpload"]["name"][$key]);
+                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$key], $target_file);
+                array_push($filesLocation, $target_file);
+            }
+        }
+        // Modificación provisional
+        $filesLocation = array('/var/www/html/tsugi/mod/codetest/images/CT-Help.png');
         //save the exercise on the repository
-        $result = $main->saveExercises($exercises);
+        $result = $main->saveExercises($exercises, $filesLocation);
 
         //map the returned exercise
         $object = json_decode($result);

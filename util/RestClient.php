@@ -1,6 +1,10 @@
 <?php
 
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\Multipart\FormDataPart;
+
+use function PHPUnit\Framework\isNull;
 
 const AUTHOR_LOGIN_URL = 'auth/login';
 const AUTHOR_REFRESH_URL = 'auth/refresh';
@@ -64,6 +68,27 @@ class RestClient
         return $this->client;
     }
 
+    public static function generatePOSTData($exerciseCode, $files){
+
+        $formFields = [
+            'json' => json_encode($exerciseCode),
+        ];
+
+        if (count($files) != 0) {
+            foreach ($files as $key => $value) {
+                $formFields['file_field_' . $key] = DataPart::fromPath($value);
+            }
+
+            $formData = new FormDataPart($formFields);
+
+            return array(
+                'headers' => $formData->getPreparedHeaders()->toArray(),
+                'body' => $formData->bodyToIterable(),
+            );
+        }
+        return $formFields;
+    }
+
     public function loginAuthor($user, $pass)
     {
         $this->log("Logging to authorkit...");
@@ -108,7 +133,7 @@ class RestClient
         $dateExpiresIn->setTimestamp($responseData['expireDate']);
         $dateExpiresIn->setTimezone(new DateTimeZone("Europe/Madrid"));
         $dateExpiresInStr = $dateExpiresIn->format('Y-m-d H:i:s [e]');
-        
+
         $dateRefreshTokenExpiresIn = new DateTime();
         $dateRefreshTokenExpiresIn->setTimestamp($responseData['expireRefreshDate']);
         $dateRefreshTokenExpiresIn->setTimezone(new DateTimeZone("Europe/Madrid"));

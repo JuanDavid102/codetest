@@ -65,7 +65,8 @@ class CT_ExerciseSQL extends CT_Exercise  implements \JsonSerializable
             'exercise_database' => $this->getExerciseDatabase(),
             'exercise_solution' => $this->getExerciseSolution(),
             'exercise_probe' => $this->getExerciseProbe(),
-            'exercise_onfly' => $this->getExerciseOnfly()
+            'exercise_onfly' => $this->getExerciseOnfly(),
+            'library' => $this->getLibrary(),
         ];
     }
 

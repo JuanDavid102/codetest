@@ -99,8 +99,8 @@ class CT_DAO {
         );
         $ExerciseQueries = array(
             'insert' => "INSERT INTO {$connection['p']}ct_exercise "
-                . "( `exercise_id`, `ct_id`, `exercise_num` , `title`, `statement`, `hint`, `ak_id` ) "
-                . "VALUES ( :exercise_id, :ct_id, :exercise_num, :title, :statement, :hint, :akId)",
+                . "( `exercise_id`, `ct_id`, `exercise_num` , `title`, `statement`, `hint`, `ak_id`, `library` ) "
+                . "VALUES ( :exercise_id, :ct_id, :exercise_num, :title, :statement, :hint, :akId, :library)",
             'update' => "UPDATE {$connection['p']}ct_exercise set "
                 . "`ct_id` = :ct_id, "
                 . "`exercise_num` = :exercise_num, "
@@ -132,8 +132,8 @@ class CT_DAO {
         );
         $ExerciseCodeQueries = array(
             'insert' => "INSERT INTO {$connection['p']}ct_code_exercise  "
-                . "(`exercise_id`,  `ct_id`, `exercise_language`, `exercise_input_test`, `exercise_input_grade`, `exercise_output_test`, `exercise_output_grade`, `exercise_solution` ) "
-                . "VALUES (:exercise_id, :ct_id, :exercise_language, :exercise_input_test, :exercise_input_grade, :exercise_output_test, :exercise_output_grade, :exercise_solution )",
+                . "(`exercise_id`,  `ct_id`, `exercise_language`, `exercise_input_test`, `exercise_input_grade`, `exercise_output_test`, `exercise_output_grade`, `exercise_solution`, `exercise_library` ) "
+                . "VALUES (:exercise_id, :ct_id, :exercise_language, :exercise_input_test, :exercise_input_grade, :exercise_output_test, :exercise_output_grade, :exercise_solution, :exercise_library )",
             'update' => "UPDATE {$connection['p']}ct_code_exercise set "
                 . "`exercise_language` = :exercise_language, "
                 . " `ct_id` = :ct_id,"
@@ -141,7 +141,8 @@ class CT_DAO {
                 . "`exercise_input_grade` = :exercise_input_grade, "
                 . "`exercise_output_test` = :exercise_output_test, "
                 . "`exercise_output_grade` = :exercise_output_grade, "
-                . "`exercise_solution` = :exercise_solution "
+                . "`exercise_solution` = :exercise_solution, "
+                . "`exercise_library` = :exercise_library"
                 . "WHERE exercise_id = :exercise_id",
             'getById' => "SELECT * FROM {$connection['p']}ct_code_exercise "
                 . "WHERE exercise_id = :exercise_id",

@@ -46,7 +46,7 @@ return [
         "grades" => "Grades",
         "grades.average" => "Average:",
         "grades.max" => "Max:",
-        "grades.min" => "Min:",     
+        "grades.min" => "Min:",
         "import/export" => "Import / Export context",
         "import/export.export" => "Export your current context to a ZIP file",
         "import/export.import" => "Import a ZIP file to your current context",
@@ -259,9 +259,8 @@ return [
     ],
     "new-exercise-form" => [
         "exercisetitle" => "Exercise Title",
+        "filesToUploadtitle" => "Libraries",
         "keywordsseparatedlines" => "Keywords (separated by lines)",
-        "mustcontainseparatedlines" => "Must contain",
-        "shouldntcontain" => "Shouldn't contain",
         "labels" => [
             "statement" => "Exercise statement",
             "hint" => "Hint",

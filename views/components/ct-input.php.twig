@@ -25,6 +25,9 @@
             {% if exerciseLanguage is defined %}
                 exerciseLanguage="{{exerciseLanguage}}"
             {% endif %}
+            {% if multiple is defined %}
+                multiple
+            {% endif %}
             type="{{type|default('text')}}"
         >
     {% endblock %}

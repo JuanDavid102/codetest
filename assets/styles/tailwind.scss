@@ -14,6 +14,10 @@
         background-color: red!important;
     }
 
+    input#filesToUpload{
+        padding-top: 3px;
+    }
+
     &.inline{
         @apply flex items-center;
         > span {
@@ -31,7 +35,7 @@
         @apply ml-1;
         @apply font-medium;
         letter-spacing: 1px;
-       
+
         span.requiredElement{
             color: red;
             font-size: 15px;
@@ -48,14 +52,14 @@
         @apply border border-primary;
         @apply border-gray-400;
         @apply caret-primary;
-        
+
 
         @apply focus:backdrop-blur-xl focus:bg-opacity-80;
 
         @apply placeholder-opacity-20 placeholder-gray-600;
         @apply focus:placeholder-opacity-0;
         @apply focus:bg-white;
-    
+
         @apply transition-all;
         @apply placeholder-shown:select-none;
 
@@ -94,12 +98,12 @@
 
     @apply focus:ring-2 ring-secondary ring-opacity-50 ring-offset-1;
     //@apply focus:border-secondary;
-    
+
     span.requiredElement{
         color: red;
         font-size: 15px;
         font-weight: bolder;
-    } 
+    }
 
     .requiredField{
         background-color: red!important;
@@ -133,7 +137,7 @@
         }
     }
 
- 
+
     .cke{
         padding: 0;
         border: 0;
@@ -147,7 +151,7 @@
         color: red;
         font-weight: bolder;
         font-size: 15px;
-        
+
     }
 
     .requiredField{
@@ -288,7 +292,7 @@
     @apply top-0 left-0;
     @apply flex items-center justify-center;
     @apply z-[9999];
-    
+
     @apply backdrop-filter backdrop-blur-lg bg-[#06a1e62b];
     > span{
         @apply text-5xl text-secondary font-bold tracking-widest underline select-none;

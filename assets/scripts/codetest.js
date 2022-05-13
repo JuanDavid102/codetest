@@ -21,7 +21,7 @@ $(() => {
     let $navbar = $('#tsugi_tool_nav_bar');
     let hasNavbar = $navbar.length > 0;
     let navBarHeight = hasNavbar ? 62 : 0;
-    
+
     $bodyContainer.get(0).style.setProperty("--navbarHeight", `${navBarHeight}px`);
 
     $('#import-file-field').on('change', (ev) => {
@@ -239,7 +239,7 @@ global.importLtiContexts = function(i = 0, object = 'test') {
             success: function (data) {
                 $('.import-body').html(data);
                 $('#buttonImport').attr('onclick', "document.getElementById('importForm').submit();");
-                
+
                 if ($('#importModal').is(':hidden')) {
                     //If exercise tab is active, it deactivates and test tab is activated
                     if ($('#li-exercises').addClass('active')) {
@@ -302,7 +302,7 @@ global.importLtiContextsPage = function(i = 0, object='test') {
 global.importLtiContextsButtons = function(value) {
     var object;
     var body;
-    
+
     //body is used to replace the correct element
     if ($("#tab-test").hasClass("active")) {
         object = "test";
@@ -327,7 +327,7 @@ global.importLtiContextsButtons = function(value) {
 global.deleteTag = function(value) {
     var object;
     var body;
-    
+
     //body is used to replace the correct element
     if ($("#tab-test").hasClass("active")) {
         object = "test";
@@ -350,7 +350,7 @@ global.deleteTag = function(value) {
 }
 
 global.importMains = function(contextId) {
-    
+
     $.ajax({
         type: "GET",
         url: "actions/import/ImportMains.php?contextId=" + contextId + "&" + _TSUGI.ajax_session,
@@ -603,7 +603,7 @@ global.answerExercise = function(exerciseId, exerciseNum) {
 
             $('.answer-output pre').html(data);
             $('#answerSavedText').html(solutionCode);
-            
+
             //If the answer is not empty and it is the first time it has been answered, the usage modal opens
             if (data) {
                 $('.usage-modal').modal({
@@ -752,7 +752,7 @@ global.resetForm = function($form) {
 //This method calls the action that sends the usage to the repository
 global.sendUsage = function(exerciseId) {
     var usageForm = $("#usageForm"+exerciseId);
-    
+
     //url = actions/SendUsage.php
     $.ajax({
         type: "POST",
@@ -812,7 +812,7 @@ global.score = function() {
             object = "exercise";
             body = ".import-body-exercises";
         }
-        
+
         //if the punctuation is 0 the parameter is cleared
         if(score==0){
             score="delete";
@@ -913,7 +913,7 @@ global.showCreateModal = function() {
 
 global.typeChange = function(){
      var language = $("#typeSelect").val();
- 
+
      $.ajax({
         type: "GET",
         url: "actions/newExerciseForm.php?language=" +language+"&"+ _TSUGI.ajax_session,
@@ -924,11 +924,11 @@ global.typeChange = function(){
             console.error(data.responseText);
         }
     });
-   
+
 }
 
 global.showNewExerciseRow = function() {
-   
+
     const invalidClassName = "invalid-field";
     const statementField = getCKEditor('exercise[statement]').getData();
     const solutionField =  codeEditor.getValue();
@@ -937,6 +937,7 @@ global.showNewExerciseRow = function() {
     const outputField = document.getElementById("output");
     const statementLabel = document.querySelector('label[for="exercise[statement]"]');
     const solutionLabel = document.querySelector('label[for="exercise[exercise_solution]"]');
+    const libraryField = document.getElementById('filesToUpload');
 
     var theForm = $("#exerciseTextForm-1");
     updateCKeditorElements();
@@ -970,6 +971,11 @@ global.showNewExerciseRow = function() {
             value: outputField.value,
             element: outputField
         },
+        {
+            key: 'filesToUpload',
+            value: libraryField.files,
+            element: libraryField
+        }
     ]
 
     fieldValues.forEach((el , i) => {
@@ -1032,9 +1038,9 @@ global.showModal = function(id){
     var modalCode = document.getElementById("modalCode" + id);
     var btnModalCode = document.getElementById("btnModalCode" + id);
 
-    
+
     modalCode.style.display = "block";
-    
+
 
     window.onclick = function(event) {
         if (event.target == modalCode) {

@@ -46,7 +46,7 @@ return [
         "grades" => "Puntuaciones",
         "grades.average" => "Media:",
         "grades.max" => "Máx:",
-        "grades.min" => "Mín:",     
+        "grades.min" => "Mín:",
         "import/export" => "Importar/Exportar contexto",
         "import/export.export" => "Exportar el contexto actual a un archivo ZIP",
         "import/export.import" => "Importar un archivo ZIP al contexto actual",
@@ -259,9 +259,8 @@ return [
     ],
     "new-exercise-form" => [
         "exercisetitle" => "Título de la pregunta",
+        "filesToUploadtitle" => "Librerias",
         "keywordsseparatedlines" => "Etiquetas (separadas por líneas)",
-        "mustcontainseparatedlines" => "Debe contener",
-        "shouldntcontain" => "No debería contener",
         "labels" => [
             "statement" => "Enunciado",
             "hint" => "Pista",

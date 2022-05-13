@@ -1,7 +1,7 @@
 {% set exercise = newExercise %}
 <!--    <div id="newExerciseNumber">{{ newExerciseNumber }}.</div>-->
 <div class="flx-grow-all exercise-text">
-    <form id="exerciseTextForm-1" action="actions/AddExercise.php" method="post">
+    <form id="exerciseTextForm-1" action="actions/AddExercise.php" method="post" enctype="multipart/form-data">
         <label for="exerciseTitleText" class="labelForm" >{%trans%}new-exercise-form.exercisetitle{%endtrans%}</label>
         <textarea class="form-control ckeditor" id="exerciseTitleText" name="exercise[title]" rows="2" required></textarea>
         <label for="exerciseKeywords" class="labelForm" >{%trans%}new-exercise-form.keywordsseparatedlines{%endtrans%}</label>
@@ -9,7 +9,8 @@
 
         {# The tilde characther '~' is used to concatenate strings, turns operands in strings and then concatenates #}
         {{ include (CFG.CT_Types.formsPath ~ main.getProperty('instructorForm')) }}
-
+        <label for="filesToUpload" class="labelForm">{%trans%}new-exercise-form.filesToUploadtitle{%endtrans%}</label>
+        <input type="file" name="filesToUpload[]" id="filesToUpload" multiple />
         </form>
 </div>
 
